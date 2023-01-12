@@ -5,21 +5,48 @@ import jakarta.persistence.*; //Should always be imported to decouple the accesm
 import java.time.LocalDate;
 import java.time.Period;
 
-@Entity //Hibernate
-@Table //Table in database
+/**
+ * The @Entity annotation says that this class will be a table in the database. Important: Import from javax and not
+ * hibernate or so, in this way we could later change to another provider
+ * You can add a name to entity: @Entity(name="Student") so the entity name can be different then the class name
+ *
+ *
+ */
+@Entity(name = "Student")
+@Table(
+        name = "student",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "student_email_unique", columnNames = "email")
+        }
+)
 public class Student {
-    @Id //Sping should generate the id
-    @SequenceGenerator( //Spring generates sequence in database
+    @Id //Is needed in jakarta to generate the primary key in the Student Entity
+    @SequenceGenerator( //Jakarta generates sequence in database, needed for auto pk generation
             name = "student_sequence",
             sequenceName = "student_sequence",
             allocationSize = 1
     )
-    @GeneratedValue(
+    @GeneratedValue( //Also needed by jakarta to say what type of values for pk
             strategy = GenerationType.SEQUENCE,
             generator = "student_sequence"
     )
+    @Column(
+            name = "id",
+            updatable = false
+    )
     private Long id;
+    @Column(
+            name = "name",
+            nullable = false,
+            columnDefinition = "TEXT"
+
+    )
     private String name;
+    @Column(
+            name = "email",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String email;
     private LocalDate dob;
     @Transient //Field doesn't need to be a column in database, however it is still part of the student class

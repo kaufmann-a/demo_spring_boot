@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * This is the Database layer, i.e. this layer is responsible for data-access.
+ * This is the data access layer, i.e. this layer is responsible for data-access.
  * JpaRepository: We have to specify the type of object we work with (Student) and the type of the @Id field which is
  * Long (See student class)
  *
